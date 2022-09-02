@@ -46,6 +46,31 @@ function createNewButton() {
   let textParaAge = document.createTextNode("Enter your age:");
   let inputAge = document.createElement("input");
 
+  let formTwo = document.createElement("form");
+  let paraCountry = document.createElement("p");
+  let textCountry = document.createTextNode("Enter your country:");
+  paraCountry.appendChild(textCountry);
+  let inputCountry = document.createElement("input");
+
+  let paraCity = document.createElement("p");
+  let textCity = document.createTextNode("Enter your city:");
+  paraCity.appendChild(textCity);
+  let inputCity = document.createElement("input");
+
+  let paraStreet = document.createElement("p");
+  let textStreet = document.createTextNode("Enter your street:");
+  paraStreet.appendChild(textStreet);
+  let inputStreet = document.createElement("input");
+
+  let paraNumber = document.createElement("p");
+  let textNumber = document.createTextNode("Enter the house number:");
+  paraNumber.appendChild(textNumber);
+  let inputNumber = document.createElement("input");
+
+  let registerButton = document.createElement("button");
+  let textRegisterButton = document.createTextNode("Register");
+  registerButton.append(textRegisterButton);
+  //=====================================================
   if (stop) {
     secondButton.appendChild(secondTextButton);
     main.insertBefore(secondButton, main.children[1]);
@@ -66,6 +91,7 @@ function createNewButton() {
 
     stop = false;
   }
+  //====================================================
   secondButton.id = "buttonCreate";
   document
     .getElementById("buttonCreate")
@@ -75,13 +101,54 @@ function createNewButton() {
   inputFname.id = "inputFname";
   inputAge.id = "inputAge";
 
+  let removeForm = false;
   function createCitizen() {
     let citizen1 = new Citizen();
     citizen1.firstname = document.getElementById("inputName").value;
     citizen1.lastname = document.getElementById("inputFname").value;
     citizen1.age = document.getElementById("inputAge").value;
+    citizen1.registered = false;
     alert(
       `Hello, ${citizen1.firstname} ${citizen1.lastname}, you are ${citizen1.age}`
     );
+    removeForm = true;
+    if (removeForm) {
+      setTimeout(() => form.remove());
+
+      main.insertBefore(formTwo, main.children[2]);
+      formTwo.insertBefore(paraCountry, formTwo.children[0]);
+      formTwo.insertBefore(inputCountry, formTwo.children[1]);
+
+      formTwo.insertBefore(paraCity, formTwo.children[2]);
+      formTwo.insertBefore(inputCity, formTwo.children[3]);
+
+      formTwo.insertBefore(paraStreet, formTwo.children[4]);
+      formTwo.insertBefore(inputStreet, formTwo.children[5]);
+
+      formTwo.insertBefore(paraNumber, formTwo.children[6]);
+      formTwo.insertBefore(inputNumber, formTwo.children[7]);
+
+      formTwo.insertBefore(registerButton, formTwo.children[8]);
+      registerButton.id = "registerButton";
+      inputCountry.id = "inputCountry";
+      inputCity.id = "inputCity";
+      inputStreet.id = "inputStreet";
+      inputNumber.id = "inputNumber";
+    }
+    document
+      .getElementById("registerButton")
+      .addEventListener("click", createAddress);
   }
+}
+//=============================================================
+
+function createAddress() {
+  let address1 = new Address();
+  address1.country = document.getElementById("inputCountry").value;
+  address1.city = document.getElementById("inputCity").value;
+  address1.street = document.getElementById("inputStreet").value;
+  address1.number = document.getElementById("inputNumber").value;
+  alert(
+    `${address1.country}, ${address1.city}, ${address1.street}, ${address1.number},`
+  );
 }
