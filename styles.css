@@ -1,0 +1,25 @@
+:root {
+  --branding-color: #00ffff;
+  --secondary-color: rgb(255, 255, 0);
+}
+
+.navbar {
+  background-color: var(--branding-color);
+}
+
+.logo {
+  width: 70px;
+}
+.nav-link {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+footer {
+  text-align: center;
+  background-color: var(--secondary-color);
+}
+.fa-brands {
+  color: white;
+  font-size: 48px;
+}
