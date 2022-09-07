@@ -77,9 +77,6 @@ let stop = true;
 
 function createNewButton() {
   if (stop) {
-    secondButton.appendChild(secondTextButton);
-    main.insertBefore(secondButton, main.children[2]);
-
     main.insertBefore(form, main.children[1]);
 
     paraName.appendChild(textParaName);
@@ -93,6 +90,9 @@ function createNewButton() {
     paraAge.appendChild(textParaAge);
     form.insertBefore(paraAge, form.children[5]);
     form.insertBefore(inputAge, form.children[5]);
+
+    secondButton.appendChild(secondTextButton);
+    form.insertBefore(secondButton, form.children[6]);
     stop = false;
   }
 
@@ -104,7 +104,7 @@ function createNewButton() {
   inputAge.id = "inputAge";
   inputAge.className = "field";
   secondButton.id = "buttonCreate";
-  secondButton.className = "field";
+  secondButton.setAttribute("type", "submit");
 
   form = document.querySelector("#firstForm");
   secondButton = form.querySelector("#buttonCreate");
@@ -128,32 +128,33 @@ function createNewButton() {
     }
   };
   var checkValidation = function () {
+    let valid = true;
     for (var i = 0; i < fields.length; i++) {
       if (!fields[i].value) {
         var error = generateError("Cannot be blank");
         form[i].parentElement.insertBefore(error, fields[i]);
-      } else {
-        document
-          .getElementById("buttonCreate")
-          .addEventListener("click", createCitizen);
+        valid = false;
       }
     }
+    return valid;
   };
 
-  form.addEventListener("click", function (event) {
+  form.addEventListener("submit", function (event) {
     event.preventDefault();
     removeValidation();
-    checkValidation();
+    const valid = checkValidation();
+    if (valid) {
+      createCitizen();
+    }
   });
 }
 
 let citizen1 = new Citizen();
 function createCitizen() {
-  setTimeout(
-    () => (document.getElementById("buttonCreate").style.visibility = "hidden")
-  );
+  form.removeEventListener("submit", function (event) {
+    event.preventDefault();
+  });
   setTimeout(() => form.remove());
-
   citizen1.firstname = document.getElementById("inputName").value;
   citizen1.lastname = document.getElementById("inputFname").value;
   citizen1.age = document.getElementById("inputAge").value;
@@ -178,7 +179,7 @@ function newFunction() {
   formTwo.insertBefore(inputNumber, formTwo.children[7]);
 
   registerButton.append(textRegisterButton);
-  main.insertBefore(registerButton, main.children[2]);
+  formTwo.insertBefore(registerButton, formTwo.children[8]);
 
   formTwo.id = "formTwo";
   inputCountry.id = "inputCountry";
@@ -190,6 +191,7 @@ function newFunction() {
   inputNumber.id = "inputNumber";
   inputNumber.className = "field";
   registerButton.id = "registerButton";
+  registerButton.setAttribute("type", "submit");
 
   let fieldsOne = formTwo.querySelectorAll(".field");
 
@@ -215,31 +217,32 @@ function newFunction() {
     }
   };
   var checkValidationOne = function () {
+    let validTwo = true;
     for (var i = 0; i < fieldsOne.length; i++) {
       if (!fieldsOne[i].value) {
         var errorOne = generateErrorOne("Cannot be blank");
         formTwo[i].parentElement.insertBefore(errorOne, fieldsOne[i]);
-      } else {
-        document
-          .getElementById("registerButton")
-          .addEventListener("click", createAddress);
+        validTwo = false;
       }
     }
+    return validTwo;
   };
 
-  formTwo.addEventListener("click", function (event) {
+  formTwo.addEventListener("submit", function (event) {
     event.preventDefault();
     removeValidationOne();
-    checkValidationOne();
+    const validTwo = checkValidationOne();
+    if (validTwo) {
+      createAddress();
+    }
   });
 }
 
 let address1 = new Address();
 function createAddress() {
-  setTimeout(
-    () =>
-      (document.getElementById("registerButton").style.visibility = "hidden")
-  );
+  formTwo.removeEventListener("submit", function (event) {
+    event.preventDefault();
+  });
   setTimeout(() => formTwo.remove());
 
   address1.country = document.getElementById("inputCountry").value;
