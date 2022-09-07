@@ -72,7 +72,6 @@ let inputNumber = document.createElement("input");
 
 let registerButton = document.createElement("button");
 let textRegisterButton = document.createTextNode("Register");
-registerButton.append(textRegisterButton);
 
 let stop = true;
 
@@ -96,39 +95,76 @@ function createNewButton() {
     form.insertBefore(inputAge, form.children[5]);
     stop = false;
   }
-  secondButton.id = "buttonCreate";
-  document
-    .getElementById("buttonCreate")
-    .addEventListener("click", createCitizen);
+
   form.id = "firstForm";
-  form.className = "field";
   inputName.id = "inputName";
   inputName.className = "field";
   inputFname.id = "inputFname";
   inputFname.className = "field";
   inputAge.id = "inputAge";
   inputAge.className = "field";
+  secondButton.id = "buttonCreate";
+  secondButton.className = "field";
+
+  form = document.querySelector("#firstForm");
+  secondButton = form.querySelector("#buttonCreate");
+  inputName = form.querySelector("#inputName");
+  inputFname = form.querySelector("#inputFname");
+  inputAge = form.querySelector("#inputAge");
+  let fields = form.querySelectorAll(".field");
+
+  var generateError = function (text) {
+    var error = document.createElement("div");
+    error.className = "error";
+    error.style.color = "red";
+    error.innerHTML = text;
+    return error;
+  };
+
+  var removeValidation = function () {
+    var errors = form.querySelectorAll(".error");
+    for (var i = 0; i < errors.length; i++) {
+      errors[i].remove();
+    }
+  };
+  var checkValidation = function () {
+    for (var i = 0; i < fields.length; i++) {
+      if (!fields[i].value) {
+        var error = generateError("Cannot be blank");
+        form[i].parentElement.insertBefore(error, fields[i]);
+      } else {
+        document
+          .getElementById("buttonCreate")
+          .addEventListener("click", createCitizen);
+      }
+    }
+  };
+
+  form.addEventListener("click", function (event) {
+    event.preventDefault();
+    removeValidation();
+    checkValidation();
+  });
 }
 
-let removeForm = false;
 let citizen1 = new Citizen();
 function createCitizen() {
+  setTimeout(
+    () => (document.getElementById("buttonCreate").style.visibility = "hidden")
+  );
+  setTimeout(() => form.remove());
+
   citizen1.firstname = document.getElementById("inputName").value;
   citizen1.lastname = document.getElementById("inputFname").value;
   citizen1.age = document.getElementById("inputAge").value;
   citizen1.registered = false;
   citizen1.address = address1;
-  removeForm = true;
-  alert(
-    `Hello, ${citizen1.firstname} ${citizen1.lastname}, you are ${citizen1.age}`
-  );
-  setTimeout(() => form.remove());
-  setTimeout(() => secondButton.remove());
+  alert(`${citizen1.firstname}, ${citizen1.lastname}, ${citizen1.age}`);
   return newFunction();
 }
 
 function newFunction() {
-  main.insertBefore(formTwo, main.children[2]);
+  main.insertBefore(formTwo, main.children[1]);
   formTwo.insertBefore(paraCountry, formTwo.children[0]);
   formTwo.insertBefore(inputCountry, formTwo.children[1]);
 
@@ -141,34 +177,78 @@ function newFunction() {
   formTwo.insertBefore(paraNumber, formTwo.children[6]);
   formTwo.insertBefore(inputNumber, formTwo.children[7]);
 
-  main.insertBefore(registerButton, main.children[8]);
-
-  registerButton.id = "registerButton";
-  document
-    .getElementById("registerButton")
-    .addEventListener("click", createAddress);
+  registerButton.append(textRegisterButton);
+  main.insertBefore(registerButton, main.children[2]);
 
   formTwo.id = "formTwo";
   inputCountry.id = "inputCountry";
+  inputCountry.className = "field";
   inputCity.id = "inputCity";
+  inputCity.className = "field";
   inputStreet.id = "inputStreet";
+  inputStreet.className = "field";
   inputNumber.id = "inputNumber";
+  inputNumber.className = "field";
+  registerButton.id = "registerButton";
+
+  let fieldsOne = formTwo.querySelectorAll(".field");
+
+  formTwo = document.querySelector("#formTwo");
+  registerButton = formTwo.querySelector("#registerButton");
+  inputCountry = formTwo.querySelector("#inputCountry");
+  inputCity = formTwo.querySelector("#inputCity");
+  inputStreet = formTwo.querySelector("#inputStreet");
+  inputNumber = formTwo.querySelector("#inputNumber");
+
+  var generateErrorOne = function (text) {
+    var errorOne = document.createElement("div");
+    errorOne.className = "error";
+    errorOne.style.color = "orange";
+    errorOne.innerHTML = text;
+    return errorOne;
+  };
+
+  var removeValidationOne = function () {
+    var errorsOne = formTwo.querySelectorAll(".error");
+    for (var i = 0; i < errorsOne.length; i++) {
+      errorsOne[i].remove();
+    }
+  };
+  var checkValidationOne = function () {
+    for (var i = 0; i < fieldsOne.length; i++) {
+      if (!fieldsOne[i].value) {
+        var errorOne = generateErrorOne("Cannot be blank");
+        formTwo[i].parentElement.insertBefore(errorOne, fieldsOne[i]);
+      } else {
+        document
+          .getElementById("registerButton")
+          .addEventListener("click", createAddress);
+      }
+    }
+  };
+
+  formTwo.addEventListener("click", function (event) {
+    event.preventDefault();
+    removeValidationOne();
+    checkValidationOne();
+  });
 }
 
 let address1 = new Address();
-let add = false;
 function createAddress() {
+  setTimeout(
+    () =>
+      (document.getElementById("registerButton").style.visibility = "hidden")
+  );
+  setTimeout(() => formTwo.remove());
+
   address1.country = document.getElementById("inputCountry").value;
   address1.city = document.getElementById("inputCity").value;
   address1.street = document.getElementById("inputStreet").value;
   address1.number = document.getElementById("inputNumber").value;
-  add = true;
   alert(
     `${address1.country}, ${address1.city}, ${address1.street}, ${address1.number},`
   );
-  setTimeout(() => formTwo.remove());
-  setTimeout(() => registerButton.remove());
-
   setTimeout(() => finnalyFunction(), 100);
 }
 
@@ -177,4 +257,5 @@ function finnalyFunction() {
   alert(
     `${citizen1.firstname}, ${citizen1.lastname}, ${citizen1.age}, ${citizen1.address.country},  ${citizen1.address.city},  ${citizen1.address.street},  ${citizen1.address.number}`
   );
+  location.reload(true);
 }

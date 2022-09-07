@@ -6,6 +6,10 @@
 .navbar {
   background-color: var(--branding-color);
 }
+.navbar-toggler {
+  position: absolute;
+  right: 10px;
+}
 
 .logo {
   width: 70px;
